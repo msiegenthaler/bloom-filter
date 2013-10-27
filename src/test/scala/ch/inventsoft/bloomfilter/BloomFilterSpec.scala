@@ -1,4 +1,4 @@
-package support
+package ch.inventsoft.bloomfilter
 
 import java.nio.ByteBuffer
 import org.specs2.mutable.Specification

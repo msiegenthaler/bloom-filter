@@ -1,4 +1,4 @@
-package support
+package ch.inventsoft.bloomfilter
 
 import scala.collection.immutable.BitSet
 import scala.util.hashing.MurmurHash3
@@ -56,7 +56,7 @@ object BloomFilter {
 
 /** Allows for faster checking against multiple bloom filters. */
 case class BloomFilterCheck private(config: BloomFilterConfig, private val values: Traversable[Int]) {
-  private[support] def checkBitSet(bits: BitSet) = values.forall(bits.contains)
+  private[bloomfilter] def checkBitSet(bits: BitSet) = values.forall(bits.contains)
   override def toString = s"BloomFilterCheck(${config})"
 }
 object BloomFilterCheck {
@@ -87,7 +87,7 @@ case class BloomFilterConfig(/** Number of bits in the filter. */
     Math.pow(1 - Math.exp(-hashCount.toDouble * (numberOfItemsInFilter + 0.5) / (capacity - 1)), hashCount)
   }
 
-  private[support] def foreachHashValue(data: Array[Byte], f: Int => Unit): Unit = {
+  private[bloomfilter] def foreachHashValue(data: Array[Byte], f: Int => Unit): Unit = {
     // see "Less Hashing, Same Performance" by Adam Kirsch and Michael Mitzenmacher
     val hash1 = MurmurHash3.bytesHash(data, 0)
     val hash2 = MurmurHash3.bytesHash(data, hash1)
@@ -97,7 +97,7 @@ case class BloomFilterConfig(/** Number of bits in the filter. */
     }
   }
 
-  private[support] def forallHashValue(data: Array[Byte], f: Int => Boolean): Boolean = {
+  private[bloomfilter] def forallHashValue(data: Array[Byte], f: Int => Boolean): Boolean = {
     // see "Less Hashing, Same Performance" by Adam Kirsch and Michael Mitzenmacher
     val hash1 = MurmurHash3.bytesHash(data, 0)
     val hash2 = MurmurHash3.bytesHash(data, hash1)

@@ -1,4 +1,4 @@
-package support
+package ch.inventsoft.bloomfilter
 
 import org.scalameter.api._
 import java.nio.ByteBuffer
